@@ -1,7 +1,7 @@
 cat > /home/claude/shrike-sniffer/README.md << 'ENDOFREADME'
 <div align="center">
 
-# Shrike Peripheral Sniffer / Analyzer
+# Peripheral Sniffer Analyzer
 
 </div>
 
@@ -50,7 +50,7 @@ This project inserts a **Renesas ForgeFPGA (SLG47910)** between the external sig
 
 <div align="center">
 
-![System Architecture Flow](./images/diagrams/architecture_flow.png)
+<img src="images/architecture.png" alt="Multi-Protocol Hardware Sniffer Architecture" width="500">
 
 *Complete signal path: Raw asynchronous protocol lines from ESP8266 enter the FPGA synchronizer array, exit as stabilized synchronized outputs, and feed into the RP2040 dual-core decoder.*
 
