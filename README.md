@@ -58,59 +58,13 @@ This project inserts a **Renesas ForgeFPGA (SLG47910)** between the external sig
 
 ---
 
-### High-Level Signal Flow
+### Signal Flow
 
-```
-┌──────────────────────────────────────────────────────────────────────────────┐
-│  ESP8266 — External Signal Generator                                         │
-│                                                                              │
-│   UART TX ──────────────────────────────────────────────────────────────►   │
-│   I2C SCL ──────────────────────────────────────────────────────────────►   │
-│   I2C SDA ──────────────────────────────────────────────────────────────►   │
-└──────────────────────────┬───────────────────────────────────────────────────┘
-                           │  Raw Asynchronous Lines
-                           │  (undefined clock domain, potentially noisy)
-                           ▼
-┌──────────────────────────────────────────────────────────────────────────────┐
-│  Renesas ForgeFPGA SLG47910 — Synchronization Frontend                      │
-│  ⚠  NOT A PROTOCOL DECODER — Capture · Synchronize · Forward Only           │
-│                                                                              │
-│  ┌─ OSC_CLK (50 MHz) ──────────────────────────────────────────────────┐    │
-│  │                                                                      │    │
-│  │  uart_in ──► [FF1] ──► [FF2] ──► uart_out_pmod  ── Stabilized ──►  │    │
-│  │                               └► Debug LED (edge validation)         │    │
-│  │                                                                      │    │
-│  │  scl_in  ──► [FF1] ──► [FF2] ──► i2c_scl_sync   ── Stabilized ──►  │    │
-│  │                                                                      │    │
-│  │  sda_in  ──► [FF1] ──► [FF2] ──► i2c_sda_sync   ── Stabilized ──►  │    │
-│  └──────────────────────────────────────────────────────────────────────┘    │
-│                                                                              │
-│  bridge_outputs_en = 1  (level-shifters held active)                        │
-└──────────────────────────┬───────────────────────────────────────────────────┘
-                           │  Stabilized Synchronized Paths
-                           │  (metastability-safe, 3-cycle latency ≈ 60 ns)
-                           ▼
-┌──────────────────────────────────────────────────────────────────────────────┐
-│  RP2040 MCU — Protocol Decode Engine (Dual-Core)                            │
-│                                                                              │
-│  Core 0                               Core 1                                │
-│  ┌────────────────────────────┐       ┌────────────────────────────┐        │
-│  │  GPIO 5 (UART RX)          │       │  Dedicated GPIOs           │        │
-│  │         ▼                  │       │  SCL + SDA inputs          │        │
-│  │  Hardware UART Peripheral  │       │         ▼                  │        │
-│  │         ▼                  │       │  I2C Bit-Bang Monitor      │        │
-│  │  Frame Reconstruction      │       │         ▼                  │        │
-│  │  Payload Decode            │       │  Frame Parsing             │        │
-│  │  Console Logging           │       │  Address + Data Decode     │        │
-│  └────────────────────────────┘       └────────────────────────────┘        │
-│                                                                              │
-│  System Tasks: Protocol handling · Error detection · Metrics · USB log      │
-└──────────────────────────┬───────────────────────────────────────────────────┘
-                           │
-                           ▼
-                     USB Serial Output
-```
+<div align="center">
+    <img src="images/signal_flow.png" alt="Multi-Protocol Hardware Sniffer Architecture" width="1000">
+</div>
 
+**Figure:** High-level architecture of the multi-protocol hardware sniffer/analyzer showing signal generation (ESP8266), synchronization frontend (Renesas ForgeFPGA SLG47910), and protocol decoding engine (RP2040).
 ---
 
 ### Why the FPGA Is In the Middle
@@ -354,9 +308,9 @@ RP2040 GPIO 14 (PIO UART TX, idle HIGH)
                                │  50 MHz OSC_CLK                     │
                                │                                     │
                                │  always @(posedge clk) begin        │
-                               │    ff1      <= uart_in;  // Capture  │
-                               │    ff2      <= ff1;      // Resolve  │
-                               │    uart_out <= ff2;      // Output   │
+                               │    ff1      <= uart_in;  // Capture │
+                               │    ff2      <= ff1;      // Resolve │
+                               │    uart_out <= ff2;      // Output  │
                                │  end                                │
                                └─────────────────┬───────────────────┘
                                                  │  3 cycles = ~60 ns latency
@@ -619,18 +573,13 @@ Contributions, bug reports, and suggestions are welcome. Please read [CONTRIBUTI
 
 <div align="center">
 
-### 👨‍💻 About
+### 👨‍💻 Pranjal Upadhyay
 
-Built as part of an embedded systems internship project.<br>
+Indian Institute of Information Technology Design and Manufacturing, Kurnool
 Hardware: Vicharak Shrike Lite · Renesas ForgeFPGA SLG47910 · RP2040
 
 ---
 
 ⭐ *Star this repository if the synchronizer design or bring-up notes were useful.*
 
-</div>
-ENDOFREADME
-echo "README written: $(wc -l < /home/claude/shrike-sniffer/README.md) lines"
-Output
 
-README written: 630 lines
