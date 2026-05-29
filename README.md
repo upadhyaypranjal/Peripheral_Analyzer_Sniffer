@@ -58,41 +58,53 @@ This project inserts a **Renesas ForgeFPGA (SLG47910)** between the external sig
 
 ---
 
+### Role of the FPGA
 
-### Why the FPGA Is In the Middle
+The FPGA acts as a **synchronization frontend** between the external signal source and the RP2040. It does not perform protocol decoding; its primary responsibility is to safely transfer asynchronous UART and I²C signals into the FPGA clock domain before forwarding them to the MCU.
 
-#### The Metastability Problem
+#### Metastability in Asynchronous Inputs
 
-When a signal crosses clock domains — or arrives from an entirely asynchronous source like an external UART transmitter — any flip-flop that captures it risks entering a **metastable state**. The output voltage sits between valid logic 0 and logic 1, resolves after an indeterminate time, and can propagate corrupted data downstream.
+Signals arriving from external devices are not aligned with the FPGA clock. Sampling such signals directly can cause a flip-flop to enter a metastable state, resulting in an indeterminate output for a short duration.
 
+```text
+Synchronous Capture                 Asynchronous Capture
+
+D ──► [FF] ──► Stable Output       D ──► [FF] ──► Undefined State
+          ▲                                  ▲
+          │                                  │
+         CLK                                CLK
 ```
-Normal capture:                     Metastable capture:
-                                    
-  D ──┤▔▔│── Q (clean HIGH)           D ──┤▔▔│── Q (??? — undefined)
-      CLK                                  CLK
-                                               │
-                                               └── Resolves randomly to 0 or 1
-                                                   May corrupt entire frame
+
+#### Two-Stage Synchronizer
+
+To mitigate metastability, each incoming signal passes through a two-stage synchronizer chain clocked by the FPGA oscillator.
+
+```text
+Asynchronous Input
+        │
+        ▼
+     ┌─────┐     ┌─────┐
+     │ FF1 │ ──► │ FF2 │ ──► Synchronized Output
+     └─────┘     └─────┘
+        │
+        └─ Metastability Resolution Window
 ```
 
-#### The 2-Stage Synchronizer Solution
+The first flip-flop captures the asynchronous signal, while the second flip-flop samples the stabilized output one clock cycle later. This significantly reduces the probability of metastability propagating to downstream logic.
 
-The two flip-flop synchronizer gives the first stage a **full clock period** (20 ns at 50 MHz) to resolve before the second stage captures it. By the time the signal exits FF2, the probability of residual metastability is reduced to a negligible level.
+**FPGA Functions**
+- Clock-domain synchronization
+- Metastability mitigation
+- Safe signal forwarding
+- Debug signal observation via onboard LED
 
-```
-Async input
-     │
-     ▼
-  ┌──────────┐   posedge clk    ┌──────────┐   posedge clk    ┌──────────┐
-  │  FF1     │ ──────────────►  │  FF2     │ ──────────────►  │ Output   │
-  │          │                  │          │                  │  reg     │
-  └──────────┘                  └──────────┘                  └──────────┘
-        │                             │
-        │ May be metastable           │ Resolved with high probability
-        │ (20 ns to settle)           │ (20 ns additional resolution time)
-        │                             │
-        └── Stage 1 resolution        └── Stage 2 confirmation
-```
+**Not Performed by FPGA**
+- UART decoding
+- I²C frame parsing
+- Protocol analysis
+- Data logging
+
+---
 
 #### Timing Budget
 
