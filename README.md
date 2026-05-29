@@ -61,7 +61,7 @@ This project inserts a **Renesas ForgeFPGA (SLG47910)** between the external sig
 ### Signal Flow
 
 <div align="center">
-    <img src="images/signal_flow.png" alt="Multi-Protocol Hardware Sniffer Architecture" width="1000">
+    <img src="images/signal_flow.png" alt="Multi-Protocol Hardware Sniffer Architecture" width="500">
 </div>
 
 **Figure:** High-level architecture of the multi-protocol hardware sniffer/analyzer showing signal generation (ESP8266), synchronization frontend (Renesas ForgeFPGA SLG47910), and protocol decoding engine (RP2040).
