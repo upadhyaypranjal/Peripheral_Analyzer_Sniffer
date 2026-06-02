@@ -2,25 +2,20 @@
 
 # Peripheral Sniffer Analyzer
 
-### Peripheral Network Analyzer
----
-
-*Built using Vicharak Shrike Lite, Renesas SLG47910 ForgeFPGA, and RP2040*
-
 </div>
 
 ---
 
 ## Overview
 
-Peripheral Sniffer Analyzer is a hardware-assisted protocol monitoring system built on the Vicharak Shrike Lite platform.
+Peripheral Sniffer Analyzer is a hardware-assisted protocol monitoring system. 
 
 The project uses a Renesas SLG47910 ForgeFPGA as a synchronization frontend and an RP2040 microcontroller for protocol decoding, packet processing, and USB serial logging.
 
 Currently supported protocols:
 
 - UART
-- I²C (Work in Progress)
+- I²C
 
 ---
 
@@ -37,29 +32,9 @@ Currently supported protocols:
 
 ## Architecture
 
-```text
-ESP8266
-   │
-   ▼
-SLG47910 FPGA
-   │
-   ▼
-RP2040
-   │
-   ▼
-USB Serial Monitor
-```
-
----
-
-## Current Status
-
-| Phase | Status |
-|---------|---------|
-| FPGA Synchronizer | ✅ Complete |
-| UART Decode | 🔄 In Progress |
-| I²C Support | 🔄 Planned |
-| Multi-Protocol Support | ⬜ Planned |
+<p align="center">
+  <img src="images/architecture/system_architecture.png" alt="Peripheral Sniffer Analyzer Architecture" width="500">
+</p>
 
 ---
 
@@ -104,16 +79,6 @@ make
 
 ---
 
-## Roadmap
-
-- UART byte reconstruction
-- I²C frame decoding
-- Timestamped packet capture
-- Multi-protocol support
-- SPI protocol monitoring
-- Automatic baud-rate detection
-
----
 
 ## License
 
