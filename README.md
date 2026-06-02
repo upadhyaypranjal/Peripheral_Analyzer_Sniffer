@@ -98,18 +98,11 @@ After programming both the FPGA and RP2040:
 4. Generate UART or I²C traffic from the external ESP8266.
 5. Verify that protocol activity and decoded data are displayed on the host terminal.
 
-
-## License
-
-MIT License
-
 ---
 
 <div align="center">
 
-### Author
-
-# Pranjal Upadhyay
+### Pranjal Upadhyay
 
 Indian Institute of Information Technology Design and Manufacturing, Kurnool
 
