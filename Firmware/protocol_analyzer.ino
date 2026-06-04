@@ -19,7 +19,6 @@ int capturedCount = 0;
 void captureI2C() {
     capturedCount = 0;
 
-    // Wait for SCL to go LOW (master starts clocking after START)
     unsigned long t = micros();
     while (digitalRead(SCL_PIN) == HIGH) {
         if (micros() - t > 2000) return;
@@ -115,7 +114,7 @@ void decodeI2C() {
     Serial.println("======================");
 }
 
-// ─── UART Decode (your original working logic) ────────────────────────────────
+// ─── UART Decoder ────────────────────────────────
 
 void decodeUART() {
     String lineBuffer = "";
@@ -156,7 +155,7 @@ void decodeUART() {
         while (digitalRead(SDA_PIN) == LOW);
     }
 
-    // Flush remaining
+    // Flush
     if (lineBuffer.length() > 0) {
         Serial.print("Time = ");
         Serial.print(millis() - programStart);
@@ -182,7 +181,6 @@ void setup() {
     Serial.println("Protocol Analyzer Started");
 }
 
-// ─── Loop (your original detection logic, kept exactly) ──────────────────────
 
 void loop() {
 
@@ -218,7 +216,7 @@ void loop() {
         delayMicroseconds(2);
     }
 
-    // ── AFTER window: decide protocol ──────────────────────────────────────
+    // ── Protocol Detection ──────────────────────────────────────
 
     unsigned long timestamp = millis() - programStart;
 
@@ -230,10 +228,7 @@ void loop() {
         Serial.print("START Conditions = "); Serial.println(i2cStartCount);
         Serial.print("Clock Pulses     = "); Serial.println(sclRisingCount);
 
-        // ── Now capture the NEXT I2C transaction ──
-        // Wait for next START condition (next loop of Wire.beginTransmission)
-        // It comes every 1000ms per your transmitter code
-        Serial.println("Waiting for next frame to decode...");
+        Serial.println("Next frame...");
 
         unsigned long waitStart = millis();
         bool gotStart = false;
@@ -255,7 +250,7 @@ void loop() {
         if (gotStart) {
             captureI2C();
 
-            Serial.println("===== I2C DECODE =====");
+            Serial.println("____ I2C Decode ____");
             Serial.print("Bits captured: "); Serial.println(capturedCount);
 
             if (capturedCount >= 9) {
@@ -271,7 +266,7 @@ void loop() {
                 Serial.print("Address = 0x");
                 if (address < 16) Serial.print("0");
                 Serial.println(address, HEX);
-                Serial.print("Mode    = "); Serial.println(rw ? "READ" : "WRITE");
+                Serial.print("Mode    = "); Serial.println(rw ? "Read" : "Write");
 
                 if (pos < capturedCount) {
                     bool addrAck = (capturedBits[pos++] == LOW);
@@ -297,10 +292,10 @@ void loop() {
             } else {
                 Serial.println("Not enough bits captured");
             }
-            Serial.println("======================");
+            Serial.println("--------------------");
 
         } else {
-            Serial.println("No next frame seen within 1.5s");
+            Serial.println("No next frame");
         }
     }
 
