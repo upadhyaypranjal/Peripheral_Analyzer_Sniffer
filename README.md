@@ -50,7 +50,7 @@ The architecture separates signal conditioning from protocol processing, improvi
 ## Architecture
 
 <p align="center">
-  <img src="images/system_architecture.png" alt="System Architecture" width="800">
+  <img src="Architecture/system_architecture.png" alt="System Architecture" width="800">
 </p>
 
 ---
