@@ -74,8 +74,14 @@ This architecture separates protocol analysis from host communication, allowing 
 
 | Software | Purpose |
 |-----------|----------|
-| Go Configure Software Hub | FPGA configuration, synthesis, pin assignment, and bitstream generation |
-| Arduino IDE | MCU firmware development and serial monitoring |
+| Tool / Software | Purpose |
+|----------------|----------|
+| Tool / Software | Purpose |
+|----------------|----------|
+| Renesas Go Configure Software Hub | FPGA configuration and bitstream generation |
+| Thonny IDE | RP2040 MicroPython firmware execution and protocol monitoring |
+| Arduino IDE | ESP8266 firmware development and generation of UART/I²C test traffic |
+| PuTTY |  User input terminal for generating test traffic through the ESP826 |
 
 ---
 
