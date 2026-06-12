@@ -130,56 +130,33 @@ After FPGA configuration and firmware deployment:
    - ACK/NACK responses
 ---
 
-### Folder Structure
+## Folder Structure
 
+```text
 Peripheral_Analyzer_Sniffer
 ├── Architecture
-│   ├── system_architecture.png
-│   │   └── Overall system architecture diagram
-│   │
-│   ├── signal_flow.png
-│   │   └── ForgeFPGA synchronization and signal-conditioning architecture
-│   │
-│   └── io_mapping_table.png
-│       └── FPGA I/O Planner pin mapping and port assignment table
+│   ├── system_architecture.png   # Overall system architecture
+│   ├── signal_flow.png           # Signal flow and synchronization architecture
+│   └── io_mapping_table.png      # FPGA pin mapping
 │
 ├── FPGA
-│   ├── top.v
-│   │   └── Top-level integration module
-│   │
-│   ├── uart_rx_core.v
-│   │   └── UART receiver and frame detection logic
-│   │
-│   ├── i2c_decoder.v
-│   │   └── I²C protocol decoder and packet extraction
-│   │
-│   ├── uart_fifo.v
-│   │   └── Event buffer / FIFO storage
-│   │
-│   ├── spi_target.v
-│   │   └── SPI slave interface for host communication
-│   │
-│   └── io_planner.png
-│       └── FPGA I/O Planner configuration screenshot
+│   ├── top.v                     # Top-level module
+│   ├── uart_rx_core.v            # UART decoder
+│   ├── i2c_decoder.v             # I²C decoder
+│   ├── uart_fifo.v               # Event buffer FIFO
+│   ├── spi_target.v              # SPI interface
+│   └── io_planner.png            # IO planner configuration
 │
 ├── Firmware
-│   └── protocol_analyzer.ino
-│       └── ESP8266 traffic generator for UART and I²C validation
+│   └── protocol_analyzer.ino     # ESP8266 traffic generator
 │
 ├── Outputs
-│   ├── uart_capture.png
-│   │   └── UART protocol decoding results
-│   │
-│   ├── i2c_capture.png
-│   │   └── I²C protocol decoding results
-│   │
-│   └── terminal_output.png
-│       └── Real-time protocol analyzer output
+│   ├── uart_capture.png          # UART output screenshots
+│   ├── i2c_capture.png           # I²C output screenshots
+│   └── terminal_output.png       # Analyzer terminal output
 │
 └── README.md
-    └── Project documentation, setup instructions, architecture, and results
-
---- 
+```
 
 <div align="center">
 
