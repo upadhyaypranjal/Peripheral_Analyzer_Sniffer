@@ -66,7 +66,7 @@ The ESP8266 was used only as a traffic generator for testing. Any device generat
 
 1. Connect your Shrike board to your PC via USB.
 2. Upload `bitstream/peripheral_analyzer_sniffer.bin` to the FPGA using ShrikeFlash (via Thonny/MicroPython — see `firmware/micropython/`).
-3. Install the host app dependencies and launch the GUI (see [Host Application](#host-application-pyqt6-gui) below).
+3. Install the host app dependencies and launch the GUI.
 4. Generate some UART, I²C, or SPI traffic on the monitored lines.
 5. **Expected result:** decoded packets appear in the GUI in real time, color-coded by protocol, with timestamps and byte-level detail.
 
@@ -87,6 +87,7 @@ The ESP8266 was used only as a traffic generator for testing. Any device generat
 2. Copy `bitstream/peripheral_analyzer_sniffer.bin` to the board's filesystem.
 3. Upload `firmware/micropython/peripheral_analyzer_sniffer.py`.
 4. Run it — it programs the FPGA and starts forwarding decoded packets over USB serial.
+
 
 ## Using the Host GUI
 
@@ -117,7 +118,6 @@ After a successful connection:
 1. Generate UART, I²C, or SPI traffic using external hardware or the provided ESP8266 test generators.
 2. Decoded packets will appear automatically in the GUI.
 3. Protocol events are categorized and displayed in real time.
-4. Transaction history and waveform views can be accessed through the sidebar panels.
 
 
 ## Generating Test Traffic
