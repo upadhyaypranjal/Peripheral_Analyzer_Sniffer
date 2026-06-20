@@ -247,7 +247,4 @@ The GUI automatically groups protocol events into transactions, displays decoded
 ## Future Improvements
 
 - Automatic UART baud-rate detection
-- Simultaneous multi-protocol triggering and cross-protocol timestamp correlation
-- Configurable capture triggers/filters at the FPGA level (not just in the GUI)
-- Persistent session logging to disk directly from firmware
 - Support for SPI mode (CPOL/CPHA) auto-detection
