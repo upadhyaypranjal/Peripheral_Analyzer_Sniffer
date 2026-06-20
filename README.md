@@ -69,6 +69,8 @@ The ESP8266 was used only as a traffic generator for testing. Any device generat
 3. Install the host app dependencies and launch the GUI.
 4. Generate some UART, I²C, or SPI traffic on the monitored lines.
 5. **Expected result:** decoded packets appear in the GUI in real time, color-coded by protocol, with timestamps and byte-level detail.
+6. For basic verification, decoded packets can also be viewed directly in the Thonny Shell output.
+7. If the host GUI is unavailable or encounters issues, the Thonny Shell provides a reliable fallback interface for validating protocol decoding and FPGA operation.
 
 ## Build From Source
 
@@ -119,6 +121,16 @@ After a successful connection:
 2. Decoded packets will appear automatically in the GUI.
 3. Protocol events are categorized and displayed in real time.
 
+### Alternative: Thonny Shell Monitoring
+
+Although the recommended interface is the PyQt6 Host GUI, decoded protocol packets can also be monitored directly through the Thonny Shell.
+
+After running the MicroPython firmware:
+
+1. Open Thonny IDE.
+2. Connect to the Shrike board.
+3. Run the analyzer firmware.
+4. Observe decoded UART, I²C, and SPI events in the Shell window.
 
 ## Generating Test Traffic
 
