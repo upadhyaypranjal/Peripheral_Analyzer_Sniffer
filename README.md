@@ -86,8 +86,8 @@ The ESP8266 was used only as a traffic generator for testing. Any device generat
 ### Firmware (MicroPython — primary path)
 
 1. Open Thonny IDE and connect to your Shrike board.
-2. Copy `bitstream/peripheral_analyzer_sniffer.bin` to the board's filesystem.
-3. Upload `firmware/micropython/peripheral_analyzer_sniffer.py`.
+2. Copy `bitstream/FPGA_bitstream_MCU.bin` to the board's filesystem.
+3. Upload `firmware/micropython/decoder.py`.
 4. Run it — it programs the FPGA and starts forwarding decoded packets over USB serial.
 
 
