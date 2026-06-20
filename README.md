@@ -7,6 +7,15 @@
 
 This example turns the Shrike board into a hardware logic analyzer for UART, I²C, and SPI. The ForgeFPGA does all the real-time protocol decoding directly in hardware — detecting start bits, START/STOP conditions, and SPI chip-select edges — while the RP2040 forwards the decoded packets to your PC over USB serial. A companion PyQt6 desktop app displays everything live, so you can watch real digital communication happen byte-by-byte instead of just reading about it.
 
+## Architecture
+
+The following diagram illustrates the complete data flow of the Peripheral Analyzer Sniffer system.
+
+<p align="center">
+  <img src="images/system_architecture.png" alt="Peripheral Analyzer Sniffer Architecture" width="9000">
+</p>
+
+The ESP8266 is used as a traffic generator during validation. UART, I²C, and SPI signals are monitored by the ForgeFPGA on the Shrike Lite board, decoded in hardware, buffered in FIFO memory, transferred to the RP2040 through SPI, and finally displayed on the host PC through the USB serial interface and Host GUI.
 
 ## Compatibility
 
