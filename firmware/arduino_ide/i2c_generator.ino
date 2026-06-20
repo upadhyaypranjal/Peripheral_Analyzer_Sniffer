@@ -20,8 +20,6 @@ void loop()
 
             continue;
         }
-
-        Serial.write(c);
         Wire.beginTransmission(I2C_ADDR);
         Wire.write((uint8_t)c);
         Wire.endTransmission();
